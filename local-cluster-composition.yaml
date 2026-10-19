@@ -36,29 +36,6 @@ spec:
                 fromFieldPath: spec.appName
                 toFieldPath: spec.forProvider.manifest.metadata.name
 
-          # Create GHCR imagePull Secret
-          - name: ghcr-secret
-            base:
-              apiVersion: kubernetes.crossplane.io/v1alpha2
-              kind: Object
-              spec:
-                providerConfigRef:
-                  name: local-k8s
-                forProvider:
-                  manifest:
-                    apiVersion: v1
-                    kind: Secret
-                    type: kubernetes.io/dockerconfigjson
-                    metadata:
-                      name: ghcr-secret
-                      namespace: placeholder
-                    data:
-                      .dockerconfigjson: eyJhdXRocyI6eyJnaGNyLmlvIjp7InVzZXJuYW1lIjoicGVyc2lzdGVudG5zIiwicGFzc3dvcmQiOiJnaHBfNFhzYlZyWDZQRnB0MlNpVU1aZmVlaHh3QndNZ1oxM3hQYWk4IiwiYXV0aCI6ImNHVnljMmx6ZEdWdWRHNXpPbWRvY0Y4MFdITmlWbkpZTmxCR2NIUXlVMmxWVFZwbVpXVm9lSGRDZDAxbldqRXplRkJoYVRnPSJ9fX0=
-            patches:
-              - type: FromCompositeFieldPath
-                fromFieldPath: spec.appName
-                toFieldPath: spec.forProvider.manifest.metadata.namespace
-
           # Patch Default ServiceAccount
           - name: patch-default-sa
             base:
@@ -75,7 +52,7 @@ spec:
                       name: default
                       namespace: placeholder
                     imagePullSecrets:
-                      - name: ghcr-secret
+                      - name: ghcr-bonyeneke
             patches:
               - type: FromCompositeFieldPath
                 fromFieldPath: spec.appName
